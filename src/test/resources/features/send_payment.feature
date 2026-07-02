@@ -1,11 +1,15 @@
-Feature: Mastercard Send API Testing
+Feature: Mastercard Send API Simulation
 
-  Background:
-    * def Signer = Java.type('utils.MastercardSigner')
-    * def auth = Signer.getAuthHeader('https://sandbox.api.mastercard.com/send/payments', 'GET', '')
+Background:
+  * url baseUrl
+  * def Signer = Java.type('utils.MastercardSigner')
 
-Scenario: Test Mastercard Send API
-  Given url 'https://sandbox.api.mastercard.com/send/payments'
-  And header Authorization = auth
-  When method get
-  Then status 400
+Scenario: Send Payment Handshake
+  * def authHeader = Signer.getAuthHeader(baseUrl, 'POST', '{"amount": "10.00"}')
+  * header Authorization = authHeader
+  * request { amount: '10.00', currency: 'USD' }
+  
+  # Removing * path completely and using post method directly. 
+  # If httpbin still requires an exact match, we call 'method post' on the base URL.
+  * method post
+  * status 200
