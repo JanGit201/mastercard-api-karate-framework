@@ -1,0 +1,7 @@
+/target/
+/.idea/
+/*.iml
+/.settings/
+/.classpath
+/.project
+**/src/test/resources/certs/* 
